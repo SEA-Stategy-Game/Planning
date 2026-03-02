@@ -1,0 +1,32 @@
+{
+  "unit_id": "unit-1",
+  "game_id": "game-abc123",
+  "player_id": "player-xyz789",
+  "version": 3,
+  "steps": [
+    {
+      "step_index": 0,
+      "step_type": "Action",
+      "action_type": "MoveTo",
+      "parameters": {
+        "target": "goldmine"
+      }
+    },
+    {
+      "step_index": 1,
+      "step_type": "Action",
+      "action_type": "Collect",
+      "parameters": {
+        "resource": "gold"
+      }
+    },
+    {
+      "step_index": 2,
+      "step_type": "Action",
+      "action_type": "MoveTo",
+      "parameters": {
+        "target": "base"
+      }
+    }
+  ]
+}

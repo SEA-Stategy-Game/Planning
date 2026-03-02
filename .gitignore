@@ -1,0 +1,15 @@
+# Build output
+bin/
+obj/
+
+# IDE / Claude
+.claude/
+
+# .NET secrets / user files
+*.user
+launchSettings.json
+
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
