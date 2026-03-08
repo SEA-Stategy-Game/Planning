@@ -5,7 +5,7 @@ open FSharp.Text.Lexing
 open FSharp.Text.Parsing.ParseHelpers
 # 1 "Parser.fsy"
 
-open Lang.AST
+open Lang
 
 # 10 "Parser.fs"
 // This type is the type of tokens accepted by the parser
@@ -162,10 +162,10 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 36 "Parser.fsy"
+# 39 "Parser.fsy"
                                Int _1 
                    )
-# 36 "Parser.fsy"
+# 39 "Parser.fsy"
                  : 'gentype_expr));
 # 170 "Parser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
@@ -174,10 +174,10 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 37 "Parser.fsy"
+# 40 "Parser.fsy"
                                           InfixApp (_1, Operator.AddOp, _3) 
                    )
-# 37 "Parser.fsy"
+# 40 "Parser.fsy"
                  : 'gentype_expr));
 # 182 "Parser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
@@ -186,10 +186,10 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 38 "Parser.fsy"
+# 41 "Parser.fsy"
                                            InfixApp (_1, Operator.SubOp, _3) 
                    )
-# 38 "Parser.fsy"
+# 41 "Parser.fsy"
                  : 'gentype_expr));
 # 194 "Parser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
@@ -198,10 +198,10 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 39 "Parser.fsy"
+# 42 "Parser.fsy"
                                            InfixApp (_1, Operator.MulOp, _3) 
                    )
-# 39 "Parser.fsy"
+# 42 "Parser.fsy"
                  : 'gentype_expr));
 # 206 "Parser.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
@@ -210,10 +210,10 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 40 "Parser.fsy"
+# 43 "Parser.fsy"
                                           InfixApp (_1, Operator.DivOp, _3) 
                    )
-# 40 "Parser.fsy"
+# 43 "Parser.fsy"
                  : 'gentype_expr));
 |]
 # 219 "Parser.fs"

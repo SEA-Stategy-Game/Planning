@@ -1,7 +1,5 @@
 module Lang
 
-module AST =
-
     type Expr =
     | Int of int
     | Paren of Expr
@@ -12,6 +10,15 @@ module AST =
     | AddOp
     | SubOp
 
-module PrettyPrint =
+    let ppExpr e =
+        match e with
+        | Int i -> string i
+        | _ -> "?"
+
     let ppPlan p =
-        failwith ("not implemented")
+        match p with
+        | InfixApp (e1, op, e2) ->
+            match op with
+            | AddOp -> printfn "Plus %s, %s" (ppExpr e1) (ppExpr e2)
+            | _ -> printfn "no"
+        | _ -> printfn "whoops"

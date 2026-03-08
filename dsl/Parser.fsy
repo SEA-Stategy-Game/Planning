@@ -1,5 +1,5 @@
 %{
-open Lang.AST
+open Lang
 %}
 
 // start token
@@ -32,6 +32,9 @@ prog:
   | EOF { None }
   | expr { Some $1 }
 
+
+// $1 = first token in the expression
+// expr1 PLUS expr2 -> $1 = expr1 
 expr:
   | INT { Int $1 }
   | expr PLUS expr { InfixApp ($1, Operator.AddOp, $3) }

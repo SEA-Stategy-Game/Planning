@@ -1,10 +1,11 @@
 ﻿module Program
+open Lang
 open FSharp.Text.Lexing
 open Compile
 
 [<EntryPoint>]
 let main argv =
-    let source = "10 + 2" // plain text fra UI
+    let source = "10 + 2" // source bliver plain text fra Graphics
     let parse plan =
         let lexbuf = LexBuffer<char>.FromString plan
         let res = Parser.start Lexer.read lexbuf
@@ -13,6 +14,7 @@ let main argv =
         | None -> failwith "failed to parse"
 
     let ast = parse source
+    Lang.ppPlan ast
+    0
     //let compiled = Compile.compilePlan ast
     // let pp = PrettyPrint.ppPlan
-    0
