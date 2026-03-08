@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "JyF4kUUtob0=",
+  "success": true,
+  "projectFilePath": "/home/emilvd/Documents/Planning/dsl/dsl.fsproj",
+  "expectedPackageFiles": [
+    "/home/emilvd/.nuget/packages/fsharp.core/10.0.103/fsharp.core.10.0.103.nupkg.sha512",
+    "/home/emilvd/.nuget/packages/fslexyacc/11.3.0/fslexyacc.11.3.0.nupkg.sha512",
+    "/home/emilvd/.nuget/packages/fslexyacc.runtime/11.3.0/fslexyacc.runtime.11.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
