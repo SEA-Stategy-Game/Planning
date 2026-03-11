@@ -1,0 +1,36 @@
+[
+  {
+    "unitId": "12",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "stepType": "Action",
+        "actionType": "MoveTo",
+        "parameters": [
+          "Base"
+        ]
+      }
+    ]
+  },
+  {
+    "unitId": "13",
+    "steps": [
+      {
+        "stepIndex": 1,
+        "stepType": "Collect",
+        "actionType": "Harvest",
+        "parameters": [
+          "goldOre"
+        ]
+      },
+      {
+        "stepIndex": 2,
+        "stepType": "Collect",
+        "actionType": "Harvest",
+        "parameters": [
+          "ironOre"
+        ]
+      }
+    ]
+  }
+]
