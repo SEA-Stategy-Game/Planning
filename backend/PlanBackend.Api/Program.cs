@@ -17,6 +17,11 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    await scope.ServiceProvider.GetRequiredService<PlanDbContext>().Database.EnsureCreatedAsync();
+}
+
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapControllers();
 
