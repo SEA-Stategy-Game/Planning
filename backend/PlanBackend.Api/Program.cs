@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PlanDbContext>(options =>
     options.UseSqlite("Data Source=plans.db"));
 
-builder.Services.AddHttpClient<CoreNotifier>();
+builder.Services.AddHttpClient<CoreNotifier>(client =>
+    client.BaseAddress = new Uri(builder.Configuration["CoreBaseUrl"] ?? "http://localhost:8081"));
 builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 builder.Services.AddScoped<ICoreNotifier, CoreNotifier>();
 builder.Services.AddScoped<PlanService>();
