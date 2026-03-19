@@ -20,7 +20,14 @@ public class PlanService(IPlanRepository repository, ICoreNotifier notifier)
         await _repository.SaveGamePlanAsync(plan);
 
         var unitIds = plan.UnitPlans.Select(u => u.UnitId).ToList();
-        await _notifier.NotifyPlanUpdatedAsync(plan.GameId, plan.PlayerId, unitIds);
+        try
+        {
+            await _notifier.NotifyPlanUpdatedAsync(plan.GameId, plan.PlayerId, unitIds);
+        }
+        catch (Exception)
+        {
+            // Core unavailable — plan is saved, notification skipped
+        }
 
         return new SubmitResult
         {
