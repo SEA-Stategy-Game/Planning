@@ -93,4 +93,16 @@ public class PlanRepository(PlanDbContext context) : IPlanRepository
 
         return JsonSerializer.Deserialize<GamePlan>(entity.GamePlanJson);
     }
+
+    public async Task<GamePlan?> GetActiveGamePlanAsync(string gameId, string playerId)
+    {
+        var entity = await _context.GamePlans
+            .Where(g => g.GameId == gameId && g.PlayerId == playerId && g.IsActive)
+            .FirstOrDefaultAsync();
+
+        if (entity == null)
+            return null;
+
+        return JsonSerializer.Deserialize<GamePlan>(entity.GamePlanJson);
+    }
 }
