@@ -1,24 +1,45 @@
 module Lang
 
-    type Expr =
-    | Int of int
-    | Paren of Expr
-    | InfixApp of (Expr * Operator * Expr)
-    and Operator =
-    | MulOp
-    | DivOp
-    | AddOp
-    | SubOp
+    type Buildings =
+        | Base
+        | GoldMine
 
-    let ppExpr e =
-        match e with
-        | Int i -> string i
-        | _ -> "?"
+    type Resources =
+        | Tree
+        | Rock
+        | Gold
 
-    let ppPlan p =
-        match p with
-        | InfixApp (e1, op, e2) ->
-            match op with
-            | AddOp -> printfn "Plus %s, %s" (ppExpr e1) (ppExpr e2)
-            | _ -> printfn "no"
-        | _ -> printfn "whoops"
+    type MoveParams =
+        | Buildings
+        | Resources
+
+    type StepType = 
+        | Action of string
+
+    type ActionType =
+        | MoveTo of MoveParams
+        | Collect of Resources
+
+
+    type Step = {
+        stepIndex: int
+        stepType: string // <- stepTypes i stedet
+        actionType: string // <- actionTypes i stedet
+        parameters: string list// liste af resourcer og andet typer
+    }
+
+    type UnitPlanHeader = {
+        unitId: string
+        steps: Step list        
+    }
+
+    type PlanHeader = {
+        schemaVersion: int
+        gameId: string
+        playerId: string
+    }
+
+    type Plan = {
+        planHeader: PlanHeader 
+        unitPlans: UnitPlanHeader list
+    }

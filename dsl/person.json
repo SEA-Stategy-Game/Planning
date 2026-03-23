@@ -1,36 +1,51 @@
-[
-  {
-    "unitId": "12",
-    "steps": [
-      {
-        "stepIndex": 1,
-        "stepType": "Action",
-        "actionType": "MoveTo",
-        "parameters": [
-          "Base"
-        ]
-      }
-    ]
+{
+  "planHeader": {
+    "schemaVersion": 1,
+    "gameId": "abc123",
+    "playerId": "321cba"
   },
-  {
-    "unitId": "13",
-    "steps": [
-      {
-        "stepIndex": 1,
-        "stepType": "Collect",
-        "actionType": "Harvest",
-        "parameters": [
-          "goldOre"
-        ]
-      },
-      {
-        "stepIndex": 2,
-        "stepType": "Collect",
-        "actionType": "Harvest",
-        "parameters": [
-          "ironOre"
-        ]
-      }
-    ]
-  }
-]
+  "unitPlans": [
+    {
+      "unitId": "1",
+      "steps": [
+        {
+          "stepIndex": 0,
+          "stepType": "Action",
+          "actionType": "MoveTo",
+          "parameters": [
+            "Gold"
+          ]
+        },
+        {
+          "stepIndex": 1,
+          "stepType": "Action",
+          "actionType": "Collect",
+          "parameters": [
+            "Tree"
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "2",
+      "steps": [
+        {
+          "stepIndex": 0,
+          "stepType": "Action",
+          "actionType": "Harvest",
+          "parameters": [
+            "Rock"
+          ]
+        },
+        {
+          "stepIndex": 1,
+          "stepType": "Action",
+          "actionType": "MoveTo",
+          "parameters": [
+            "Tree"
+          ]
+        }
+      ]
+    }
+  ]
+}

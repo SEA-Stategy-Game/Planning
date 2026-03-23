@@ -1,0 +1,13 @@
+Schema version: 1
+Game Id: abc123
+Player Id: 321cba
+
+unit 1:
+    MoveTo Gold
+    Collect Tree
+END
+
+unit 2:
+    Harvest Rock
+    MoveTo Tree
+END
