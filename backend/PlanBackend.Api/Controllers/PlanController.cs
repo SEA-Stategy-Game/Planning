@@ -69,7 +69,7 @@ public class PlanController(PlanService service) : ControllerBase
             }).ToList()
         }).ToList();
 
-        return Ok(response);
+        return Ok(new UnitPlanCollectionResponse { UnitPlans = response });
     }
 
     [HttpGet("/plan/{gameId}/{playerId}/history")]
