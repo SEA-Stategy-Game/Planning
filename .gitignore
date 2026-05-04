@@ -4,6 +4,7 @@ obj/
 
 # IDE / Claude
 .claude/
+CLAUDE.md
 
 # .NET secrets / user files
 *.user
