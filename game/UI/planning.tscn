@@ -20,7 +20,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Terminal" type="TextEdit" parent="VBoxContainer" unique_id=973678987]
+[node name="Terminal" type="CodeEdit" parent="VBoxContainer" unique_id=97153051]
 layout_mode = 2
 size_flags_vertical = 3
 

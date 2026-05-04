@@ -11,8 +11,11 @@ const SCHEMA_VERSION := "1.0"
 const GAME_ID        := "testgame"
 const PLAYER_ID      := "testplayer"
 # -----------------------------------------------
+# Keywords for intellisense, man tilføjer bare ting så vil den prøve at suggest ting
+const DSL_KEYWORDS := ["MoveTo", "Harvest", "Construct", "if", "END", "unit"]
 
-@onready var text_edit: TextEdit = $VBoxContainer/Terminal
+
+@onready var text_edit: CodeEdit = $VBoxContainer/Terminal
 @onready var submit_button: Button = $VBoxContainer/SubmitButton
 
 var _http: HTTPRequest
@@ -22,6 +25,8 @@ func _ready() -> void:
 	_http = HTTPRequest.new()
 	add_child(_http)
 	_http.request_completed.connect(_on_request_completed)
+	text_edit.code_completion_enabled = true
+	text_edit.text_changed.connect(_on_text_changed)
 
 func _on_submit_pressed() -> void:
 	var user_input := text_edit.text
@@ -35,6 +40,54 @@ func _on_submit_pressed() -> void:
 
 	_submit_note(json_body)
 
+func _on_text_changed() -> void:
+	var line := text_edit.get_caret_line()
+	var col := text_edit.get_caret_column()
+	var line_text: String = text_edit.get_line(line)
+	var before_cursor := line_text.substr(0, col)
+	var stripped := before_cursor.lstrip(" \t")
+
+	# Case A — after `unit `: suggest live unit IDs
+	if stripped.begins_with("unit ") or stripped.begins_with("unit\t"):
+		var rest := stripped.substr(4).lstrip(" \t")
+		# already typed colon or moved past the id → no popup
+		if ":" in rest or " " in rest or "\t" in rest:
+			text_edit.cancel_code_completion()
+			return
+		for uid in _get_live_unit_ids():
+			text_edit.add_code_completion_option(CodeEdit.KIND_VARIABLE, uid, uid)
+		text_edit.update_code_completion_options(false)
+		return
+
+	# Below cases need to be on the first word of the line
+	if stripped.is_empty() or " " in stripped or "\t" in stripped:
+		text_edit.cancel_code_completion()
+		return
+
+	# Case B — typing a `Unit...` reference: suggest `Unit<id>`
+	if "Unit".begins_with(stripped) or stripped.begins_with("Unit"):
+		for uid in _get_live_unit_ids():
+			var label := "Unit" + uid
+			text_edit.add_code_completion_option(CodeEdit.KIND_VARIABLE, label, label)
+		text_edit.update_code_completion_options(false)
+		return
+
+	# Case C — fall back to keywords
+	for kw in DSL_KEYWORDS:
+		text_edit.add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, kw, kw)
+	text_edit.update_code_completion_options(false)
+
+
+func _get_live_unit_ids() -> Array[String]:
+	var ids: Array[String] = []
+	var gateway = get_node_or_null("/root/ActionGateway")
+	if gateway == null or not gateway.has_method("get_all_units"):
+		return ids
+	for u in gateway.get_all_units():
+		var id_val = u.get("id") if u else null
+		if id_val != null:
+			ids.append(str(id_val))
+	return ids
 # ----------------------------------------------------------------
 # Header injection
 # ----------------------------------------------------------------
