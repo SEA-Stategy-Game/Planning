@@ -18,6 +18,8 @@ let main argv =
     match run parsePlan input with
         | Success(value, _, _) ->  
             let json = JsonSerializer.Serialize(value, options)
+            File.WriteAllText("plan.json", json)
+            printfn "Succesfully saved the validated plan as: plan.json" 
             async {
                 try
                     use client = new HttpClient()
@@ -38,7 +40,6 @@ let main argv =
                     in failwith message
             }
             |> Async.RunSynchronously
-            File.WriteAllText("plan.json", json)
 
         | Failure(msg, _, _) -> printfn "Something went wrong?: %s" msg 
     0

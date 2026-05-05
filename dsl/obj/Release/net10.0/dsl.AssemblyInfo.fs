@@ -10,7 +10,7 @@ open System.Reflection
 [<assembly: System.Reflection.AssemblyCompanyAttribute("dsl")>]
 [<assembly: System.Reflection.AssemblyConfigurationAttribute("Release")>]
 [<assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")>]
-[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+69b1c14467ce540b00816d494bb9c3efc5e6afc4")>]
+[<assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c88547687dee52ccd77a9586bf377c75aa678851")>]
 [<assembly: System.Reflection.AssemblyProductAttribute("dsl")>]
 [<assembly: System.Reflection.AssemblyTitleAttribute("dsl")>]
 [<assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")>]
