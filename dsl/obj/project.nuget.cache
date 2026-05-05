@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "AmkIxE5yim4=",
+  "success": true,
+  "projectFilePath": "/home/emilvd/Documents/Planning/dsl/dsl.fsproj",
+  "expectedPackageFiles": [
+    "/home/emilvd/.nuget/packages/fparsec/1.1.0/fparsec.1.1.0.nupkg.sha512",
+    "/home/emilvd/.nuget/packages/fsharp.core/10.0.103/fsharp.core.10.0.103.nupkg.sha512"
+  ],
+  "logs": []
+}
