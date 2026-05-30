@@ -1,3 +1,4 @@
+using System.Text.Json;
 using PlanBackend.Application.Interfaces;
 using StackExchange.Redis;
 
@@ -17,11 +18,25 @@ public class RedisSenseClient(IConnectionMultiplexer redisConnection) : ISenseQu
     {
         try
         {
-            var members = await _db.SetMembersAsync($"game:{gameId}:{arrayKey}");
-            return members
-                .Select(v => v.ToString())
+            var jsonValue = await _db.StringGetAsync($"game:{gameId}:state_snapshot");
+            
+            if (jsonValue.IsNullOrEmpty)
+            {
+                // Key does not exist (TTL expired or game room down)
+                return new HashSet<string>();
+            }
+
+            using var doc = JsonDocument.Parse(jsonValue.ToString());
+
+            if (!doc.RootElement.TryGetProperty(arrayKey, out var array))
+            {
+                return new HashSet<string>();
+            }
+
+            return array.EnumerateArray()
+                .Select(el => el.GetString() ?? "")
                 .Where(id => !string.IsNullOrEmpty(id))
-                .ToHashSet()!;
+                .ToHashSet();
         }
         catch
         {
