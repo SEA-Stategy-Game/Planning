@@ -6,8 +6,9 @@ using PlanBackend.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=plans.db";
 builder.Services.AddDbContext<PlanDbContext>(options =>
-    options.UseSqlite("Data Source=plans.db"));
+    options.UseSqlite(connectionString));
 
 builder.Services.AddHttpClient<ICoreNotifier, CoreNotifier>(client =>
     client.BaseAddress = new Uri(builder.Configuration["CoreBaseUrl"] ?? "http://localhost:8085"));
