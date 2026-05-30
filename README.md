@@ -48,14 +48,18 @@ docker run -p 5000:8080 \
   planbackend-api
 ```
 
-## Notification Architecture (Feature Flag)
+## Core Server Integration (Feature Flag)
 
-The backend supports two notification architectures for informing game-rooms when a plan is updated: HTTP and Redis PubSub.
+The backend interacts with the game-room (Core server) for two purposes:
+1. **Validation**: Querying the game-room to verify if units and resources actually exist before accepting a plan.
+2. **Notification**: Notifying the game-room when a plan has been updated.
 
-You can toggle between these architectures using the `UseRedisNotifier` feature flag.
+The backend supports two distinct architectures for this integration, toggleable via the `UseRedisNotifier` feature flag.
 
-- **HTTP (Default)**: If `UseRedisNotifier` is set to `false`, the backend sends an HTTP POST request to the game-room using the base URL defined in `CoreBaseUrl`.
-- **Redis PubSub**: If `UseRedisNotifier` is set to `true`, the backend publishes a JSON payload to a Redis channel using the pattern `planning.<game-room-id>.plan-updated`. 
+- **HTTP (Default)**: If `UseRedisNotifier` is set to `false`, the backend relies entirely on HTTP calls to the `CoreBaseUrl`. It queries state via `GET /game-state` and sends notifications via `POST /plan-updated`.
+- **Redis State Mirroring & PubSub**: If `UseRedisNotifier` is set to `true`, the backend completely decouples from direct game-room HTTP requests.
+  - **Validation**: It reads valid unit and resource IDs directly from Redis Sets (e.g., `game:<game-room-id>:units`).
+  - **Notification**: It publishes a JSON payload to a Redis channel using the pattern `planning.<game-room-id>.plan-updated`. 
 
 ### Configuration
 
