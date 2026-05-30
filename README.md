@@ -47,3 +47,34 @@ docker run -p 5000:8080 \
   -e ConnectionStrings__DefaultConnection="Data Source=data/plans.db" \
   planbackend-api
 ```
+
+## Notification Architecture (Feature Flag)
+
+The backend supports two notification architectures for informing game-rooms when a plan is updated: HTTP and Redis PubSub.
+
+You can toggle between these architectures using the `UseRedisNotifier` feature flag.
+
+- **HTTP (Default)**: If `UseRedisNotifier` is set to `false`, the backend sends an HTTP POST request to the game-room using the base URL defined in `CoreBaseUrl`.
+- **Redis PubSub**: If `UseRedisNotifier` is set to `true`, the backend publishes a JSON payload to a Redis channel using the pattern `planning.<game-room-id>.plan-updated`. 
+
+### Configuration
+
+You can configure the feature flag and Redis connection string in `backend/PlanBackend.Api/appsettings.json`:
+
+```json
+{
+  "UseRedisNotifier": true,
+  "RedisConnection": "localhost:6379"
+}
+```
+
+Or you can override it using environment variables when running via Docker:
+
+```bash
+docker run -p 5000:8080 \
+  -e UseRedisNotifier=true \
+  -e RedisConnection=redis:6379 \
+  planbackend-api
+```
+
+When using `docker-compose.yml`, the application is already configured to start a local Redis container and use the Redis notification architecture by default.
