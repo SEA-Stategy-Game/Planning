@@ -29,12 +29,15 @@ public class PlanValidator(ISenseQueryClient senseClient)
                     continue;
                 }
 
-                foreach (var param in ActionSpec.RequiredParams[step.ActionType])
+                if (ActionSpec.RequiredParams.TryGetValue(step.ActionType, out var reqPs))
                 {
-                    if (!step.Parameters.TryGetValue(param, out var val) || string.IsNullOrWhiteSpace(val))
-                        errors.Add(
-                            $"unit '{unitPlan.UnitId}' step {step.StepIndex}: " +
-                            $"action '{step.ActionType}' missing required parameter '{param}'.");
+                    foreach (var param in reqPs)
+                    {
+                        if (!step.Parameters.TryGetValue(param, out var val) || string.IsNullOrWhiteSpace(val))
+                            errors.Add(
+                                $"unit '{unitPlan.UnitId}' step {step.StepIndex}: " +
+                                $"action '{step.ActionType}' missing required parameter '{param}'.");
+                    }
                 }
 
                 if (ActionSpec.FloatParams.TryGetValue(step.ActionType, out var floatPs))
@@ -62,6 +65,29 @@ public class PlanValidator(ISenseQueryClient senseClient)
                                 $"unit '{unitPlan.UnitId}' step {step.StepIndex}: " +
                                 $"parameter '{param}' must be an integer (got '{val}').");
                     }
+                }
+
+                if (step.ActionType.Equals("Harvest", StringComparison.OrdinalIgnoreCase))
+                {
+                    var hasTargetId = step.Parameters.TryGetValue("target_id", out var tid)
+                                      && !string.IsNullOrWhiteSpace(tid);
+                    var hasResourceType = step.Parameters.TryGetValue("resource_type", out var rt)
+                                          && !string.IsNullOrWhiteSpace(rt);
+
+                    if (!hasTargetId && !hasResourceType)
+                        errors.Add(
+                            $"unit '{unitPlan.UnitId}' step {step.StepIndex}: " +
+                            $"Harvest requires either 'target_id' (integer) or 'resource_type' " +
+                            $"(one of: {string.Join(", ", ActionSpec.HarvestResourceTypes)}).");
+                    else if (hasTargetId && !int.TryParse(tid, out _))
+                        errors.Add(
+                            $"unit '{unitPlan.UnitId}' step {step.StepIndex}: " +
+                            $"parameter 'target_id' must be an integer (got '{tid}').");
+                    else if (hasResourceType && !ActionSpec.HarvestResourceTypes.Contains(rt!))
+                        errors.Add(
+                            $"unit '{unitPlan.UnitId}' step {step.StepIndex}: " +
+                            $"'resource_type' must be one of: " +
+                            $"{string.Join(", ", ActionSpec.HarvestResourceTypes)} (got '{rt}').");
                 }
             }
         }
@@ -94,7 +120,7 @@ public class PlanValidator(ISenseQueryClient senseClient)
                         s.ActionType.Equals("Harvest", StringComparison.OrdinalIgnoreCase)))
                     {
                         var targetId = step.Parameters.GetValueOrDefault("target_id", "");
-                        if (!resourceIds.Contains(targetId))
+                        if (!string.IsNullOrWhiteSpace(targetId) && !resourceIds.Contains(targetId))
                             errors.Add(
                                 $"unit '{unitPlan.UnitId}' step {step.StepIndex}: " +
                                 $"resource '{targetId}' does not exist in the current game state.");
