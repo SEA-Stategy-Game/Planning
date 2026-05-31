@@ -14,7 +14,7 @@ public static class ActionSpec
         new HashSet<string>(["tree", "stone"], StringComparer.OrdinalIgnoreCase);
 
     public static readonly IReadOnlySet<string> SupportedActions =
-        new HashSet<string>(RequiredParams.Keys.Append("Harvest"), StringComparer.OrdinalIgnoreCase);
+        new HashSet<string>(RequiredParams.Keys.Append("Harvest").Append("Attack"), StringComparer.OrdinalIgnoreCase);
 
     // Parameters that must parse as float (duration is optional, validated only when present)
     public static readonly IReadOnlyDictionary<string, string[]> FloatParams =
