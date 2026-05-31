@@ -54,10 +54,10 @@ The backend interacts with the game-room (Core server) for two purposes:
 1. **Validation**: Querying the game-room to verify if units and resources actually exist before accepting a plan.
 2. **Notification**: Notifying the game-room when a plan has been updated.
 
-The backend supports two distinct architectures for this integration, toggleable via the `UseRedisNotifier` feature flag.
+The backend supports two distinct architectures for this integration, toggleable via the `USE_REDIS` feature flag.
 
-- **HTTP (Default)**: If `UseRedisNotifier` is set to `false`, the backend relies entirely on HTTP calls to the `CoreBaseUrl`. It queries state via `GET /game-state` and sends notifications via `POST /plan-updated`.
-- **Redis State Mirroring & PubSub**: If `UseRedisNotifier` is set to `true`, the backend completely decouples from direct game-room HTTP requests.
+- **HTTP (Default)**: If `USE_REDIS` is set to `false`, the backend relies entirely on HTTP calls to the `CoreBaseUrl`. It queries state via `GET /game-state` and sends notifications via `POST /plan-updated`.
+- **Redis State Mirroring & PubSub**: If `USE_REDIS` is set to `true`, the backend completely decouples from direct game-room HTTP requests.
   - **Validation**: It reads valid unit and resource IDs directly from Redis Sets (e.g., `game:<game-room-id>:units`).
   - **Notification**: It publishes a JSON payload to a Redis channel using the pattern `planning.<game-room-id>.plan-updated`. 
 
@@ -67,7 +67,7 @@ You can configure the feature flag and Redis connection string in `backend/PlanB
 
 ```json
 {
-  "UseRedisNotifier": true,
+  "USE_REDIS": true,
   "RedisConnection": "localhost:6379"
 }
 ```
