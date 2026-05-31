@@ -8,4 +8,6 @@ public class PlanStep
     public StepType StepType { get; set; }
     public string ActionType { get; set; } = string.Empty;
     public Dictionary<string, string> Parameters { get; set; } = new();
+    public List<PlanStep> Body { get; set; } = new();
+    public List<PlanStep> ElseBody { get; set; } = new();
 }

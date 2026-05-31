@@ -11,6 +11,26 @@ public class PlanController(PlanService service) : ControllerBase
 {
     private readonly PlanService _service = service;
 
+    private static PlanStep MapStep(PlanStepIR s) => new PlanStep
+    {
+        StepIndex  = s.StepIndex,
+        StepType   = Enum.Parse<StepType>(s.StepType, ignoreCase: true),
+        ActionType = s.ActionType,
+        Parameters = s.Parameters,
+        Body       = s.Body.Select(MapStep).ToList(),
+        ElseBody   = s.ElseBody.Select(MapStep).ToList()
+    };
+
+    private static PlanStepIR MapStepResponse(PlanStep s) => new PlanStepIR
+    {
+        StepIndex  = s.StepIndex,
+        StepType   = s.StepType.ToString().ToLowerInvariant(),
+        ActionType = s.ActionType,
+        Parameters = s.Parameters,
+        Body       = s.Body.Select(MapStepResponse).ToList(),
+        ElseBody   = s.ElseBody.Select(MapStepResponse).ToList()
+    };
+
     [HttpPost("/plan")]
     public async Task<IActionResult> PostPlan([FromBody] PlanSubmissionIR r)
     {
@@ -24,13 +44,7 @@ public class PlanController(PlanService service) : ControllerBase
             UnitPlans = r.UnitPlans.Select(u => new UnitPlan
             {
                 UnitId = u.UnitId,
-                Steps = u.Steps.Select(s => new PlanStep
-                {
-                    StepIndex = s.StepIndex,
-                    StepType = Enum.Parse<StepType>(s.StepType, ignoreCase: true),
-                    ActionType = s.ActionType,
-                    Parameters = s.Parameters
-                }).ToList()
+                Steps = u.Steps.Select(MapStep).ToList()
             }).ToList()
         };
 
@@ -60,13 +74,7 @@ public class PlanController(PlanService service) : ControllerBase
         var response = unitPlans.Select(u => new UnitPlanResponse
         {
             UnitId = u.UnitId,
-            Steps = u.Steps.Select(s => new PlanStepIR
-            {
-                StepIndex = s.StepIndex,
-                StepType = s.StepType.ToString().ToLowerInvariant(),
-                ActionType = s.ActionType,
-                Parameters = s.Parameters
-            }).ToList()
+            Steps = u.Steps.Select(MapStepResponse).ToList()
         }).ToList();
 
         return Ok(new UnitPlanCollectionResponse { UnitPlans = response });
