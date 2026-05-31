@@ -1,4 +1,3 @@
-using System.Text.Json;
 using PlanBackend.Application.Interfaces;
 using StackExchange.Redis;
 
@@ -9,32 +8,19 @@ public class RedisSenseClient(IConnectionMultiplexer redisConnection) : ISenseQu
     private readonly IDatabase _db = redisConnection.GetDatabase();
 
     public async Task<IReadOnlySet<string>> GetUnitIdsAsync(string gameId)
-        => await FetchIdsAsync(gameId, "units");
+        => await FetchIdsAsync($"game:{gameId}:units");
 
     public async Task<IReadOnlySet<string>> GetResourceIdsAsync(string gameId)
-        => await FetchIdsAsync(gameId, "resources");
+        => await FetchIdsAsync($"game:{gameId}:resources");
 
-    private async Task<IReadOnlySet<string>> FetchIdsAsync(string gameId, string arrayKey)
+    private async Task<IReadOnlySet<string>> FetchIdsAsync(string redisKey)
     {
         try
         {
-            var jsonValue = await _db.StringGetAsync($"game:{gameId}:state_snapshot");
+            var members = await _db.SetMembersAsync(redisKey);
             
-            if (jsonValue.IsNullOrEmpty)
-            {
-                // Key does not exist (TTL expired or game room down)
-                return new HashSet<string>();
-            }
-
-            using var doc = JsonDocument.Parse(jsonValue.ToString());
-
-            if (!doc.RootElement.TryGetProperty(arrayKey, out var array))
-            {
-                return new HashSet<string>();
-            }
-
-            return array.EnumerateArray()
-                .Select(el => el.GetString() ?? "")
+            return members
+                .Select(m => m.ToString())
                 .Where(id => !string.IsNullOrEmpty(id))
                 .ToHashSet();
         }
