@@ -11,7 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<PlanDbContext>(options =>
     options.UseSqlite(connectionString));
 
-var useRedisNotifier = builder.Configuration.GetValue<bool>("USE_REDIS");
+var useRedisNotifier = builder.Configuration.GetValue<bool>("UseRedis");
 if (useRedisNotifier)
 {
     var redisConnection = builder.Configuration["RedisConnection"] ?? "localhost:6379";

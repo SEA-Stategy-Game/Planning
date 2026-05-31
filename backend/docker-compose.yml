@@ -7,7 +7,7 @@ services:
       - "5000:8080"
     environment:
       - ConnectionStrings__DefaultConnection=Data Source=data/plans.db
-      - USE_REDIS=true
+      - UseRedis=true
       - RedisConnection=redis:6379
     volumes:
       - ./data:/app/data
