@@ -18,7 +18,8 @@ public static class ActionSpec
 
     public static readonly IReadOnlySet<string> ConditionPrefixes =
         new HashSet<string>(
-            ["enemy_nearby", "resources_nearby", "stockpile.wood", "stockpile.stone", "unit.health"],
+            ["EnemyWithin", "NoEnemyWithin", "HpBelow", "HpAbove",
+             "idle", "busy", "always", "wood", "stone"],
             StringComparer.OrdinalIgnoreCase);
 
     // Parameters that must parse as float (duration is optional, validated only when present)
