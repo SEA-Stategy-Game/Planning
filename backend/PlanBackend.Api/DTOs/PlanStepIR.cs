@@ -15,4 +15,10 @@ public class PlanStepIR
 
     [JsonPropertyName("parameters")]
     public Dictionary<string, string> Parameters { get; set; } = new();
+
+    [JsonPropertyName("body")]
+    public List<PlanStepIR> Body { get; set; } = new();
+
+    [JsonPropertyName("else_body")]
+    public List<PlanStepIR> ElseBody { get; set; } = new();
 }
