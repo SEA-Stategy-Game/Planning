@@ -1,0 +1,120 @@
+{
+  "planHeader": {
+    "schemaVersion": 1,
+    "gameId": "abc123",
+    "playerId": "321cba"
+  },
+  "unitPlans": [
+    {
+      "unitId": "1",
+      "steps": [
+        {
+          "stepIndex": 0,
+          "stepType": "MoveTo",
+          "actionType": "MoveTo",
+          "parameters": [
+            "Gold"
+          ],
+          "body": []
+        },
+        {
+          "stepIndex": 1,
+          "stepType": "Collect",
+          "actionType": "Collect",
+          "parameters": [
+            "Tree"
+          ],
+          "body": []
+        },
+        {
+          "stepIndex": 2,
+          "stepType": "Unit command",
+          "actionType": "Unit2",
+          "parameters": [
+            "hp"
+          ],
+          "body": []
+        },
+        {
+          "stepIndex": 3,
+          "stepType": "if",
+          "actionType": "Conditional",
+          "parameters": [
+            "5 \u003C 3"
+          ],
+          "body": [
+            {
+              "stepIndex": 0,
+              "stepType": "MoveTo",
+              "actionType": "MoveTo",
+              "parameters": [
+                "Gold"
+              ],
+              "body": []
+            },
+            {
+              "stepIndex": 1,
+              "stepType": "if",
+              "actionType": "Conditional",
+              "parameters": [
+                "4 == 5"
+              ],
+              "body": [
+                {
+                  "stepIndex": 0,
+                  "stepType": "Collect",
+                  "actionType": "Collect",
+                  "parameters": [
+                    "Tree"
+                  ],
+                  "body": []
+                },
+                {
+                  "stepIndex": 1,
+                  "stepType": "Unit command",
+                  "actionType": "Unit56",
+                  "parameters": [
+                    "pos"
+                  ],
+                  "body": []
+                },
+                {
+                  "stepIndex": 2,
+                  "stepType": "MoveTo",
+                  "actionType": "MoveTo",
+                  "parameters": [
+                    "Tree"
+                  ],
+                  "body": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unitId": "2",
+      "steps": [
+        {
+          "stepIndex": 0,
+          "stepType": "Harvest",
+          "actionType": "Harvest",
+          "parameters": [
+            "Rock"
+          ],
+          "body": []
+        },
+        {
+          "stepIndex": 1,
+          "stepType": "MoveTo",
+          "actionType": "MoveTo",
+          "parameters": [
+            "Tree"
+          ],
+          "body": []
+        }
+      ]
+    }
+  ]
+}

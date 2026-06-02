@@ -1,0 +1,6 @@
+@PlanBackend.Api_HostAddress = http://localhost:5020
+
+GET {{PlanBackend.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

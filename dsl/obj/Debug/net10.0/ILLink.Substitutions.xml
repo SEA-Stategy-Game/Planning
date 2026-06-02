@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <assembly fullname="dsl">
+    <resource name="FSharpSignatureData.dsl" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedData.dsl" action="remove"></resource>
+    <resource name="FSharpSignatureDataB.dsl" action="remove"></resource>
+    <resource name="FSharpSignatureCompressedDataB.dsl" action="remove"></resource>
+    <resource name="FSharpOptimizationData.dsl" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedData.dsl" action="remove"></resource>
+    <resource name="FSharpOptimizationDataB.dsl" action="remove"></resource>
+    <resource name="FSharpOptimizationCompressedDataB.dsl" action="remove"></resource>
+    <resource name="FSharpOptimizationInfo.dsl" action="remove"></resource>
+    <resource name="FSharpSignatureInfo.dsl" action="remove"></resource>
+  </assembly>
+</linker>

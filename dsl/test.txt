@@ -1,0 +1,23 @@
+Schema version: 1
+Game Id: abc123
+Player Id: 321cba
+
+
+unit 1:
+    MoveTo Gold
+    Collect Tree
+    Unit2.hp
+    if 5 < 3
+        MoveTo Gold
+        if 4 == 5
+            Collect Tree
+            Unit56.pos
+            MoveTo Tree
+        END if
+    END if
+END
+
+unit 2:
+    Harvest Rock
+    MoveTo Tree
+END

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "game_id": "game-abc123",
+  "player_id": "player-xyz789",
+  "unit_plans": [
+    {
+      "unit_id": "unit-1",
+      "steps": [
+        {
+          "step_index": 0,
+          "step_type": "Action",
+          "action_type": "MoveTo",
+          "parameters": {
+            "target": "goldmine"
+          }
+        },
+        {
+          "step_index": 1,
+          "step_type": "Action",
+          "action_type": "Collect",
+          "parameters": {
+            "resource": "gold"
+          }
+        },
+        {
+          "step_index": 2,
+          "step_type": "Action",
+          "action_type": "MoveTo",
+          "parameters": {
+            "target": "base"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "unit-2",
+      "steps": [
+        {
+          "step_index": 0,
+          "step_type": "Action",
+          "action_type": "MoveTo",
+          "parameters": {
+            "target": "trees"
+          }
+        },
+        {
+          "step_index": 1,
+          "step_type": "Action",
+          "action_type": "Collect",
+          "parameters": {
+            "resource": "wood"
+          }
+        },
+        {
+          "step_index": 2,
+          "step_type": "Action",
+          "action_type": "MoveTo",
+          "parameters": {
+            "target": "base"
+          }
+        }
+      ]
+    }
+  ]
+}
