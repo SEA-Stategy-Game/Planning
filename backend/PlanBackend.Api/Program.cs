@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PlanBackend.Application.Interfaces;
+using PlanBackend.Application.Options;
 using PlanBackend.Application.Services;
 using PlanBackend.Application.Validation;
 using PlanBackend.Infrastructure;
@@ -31,6 +32,10 @@ else
 
 builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 builder.Services.AddScoped<PlanValidator>();
+builder.Services.AddSingleton(new PlanServiceOptions
+{
+    RateLimitSeconds = builder.Configuration.GetValue<int>("PlanRateLimitSeconds", 30)
+});
 builder.Services.AddScoped<PlanService>();
 
 builder.Services.AddControllers();

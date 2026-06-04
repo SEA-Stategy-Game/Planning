@@ -1,15 +1,21 @@
 using PlanBackend.Application.DTOs;
 using PlanBackend.Application.Interfaces;
+using PlanBackend.Application.Options;
 using PlanBackend.Application.Validation;
 using PlanBackend.Domain.Models;
 
 namespace PlanBackend.Application.Services;
 
-public class PlanService(IPlanRepository repository, ICoreNotifier notifier, PlanValidator validator)
+public class PlanService(
+    IPlanRepository repository,
+    ICoreNotifier notifier,
+    PlanValidator validator,
+    PlanServiceOptions options)
 {
     private readonly IPlanRepository _repository = repository;
     private readonly ICoreNotifier   _notifier   = notifier;
     private readonly PlanValidator   _validator  = validator;
+    private readonly int _rateLimitSeconds = options.RateLimitSeconds;
 
     public async Task<SubmitResult> SubmitPlanAsync(GamePlan plan)
     {
@@ -19,6 +25,24 @@ public class PlanService(IPlanRepository repository, ICoreNotifier notifier, Pla
         var errors = await _validator.ValidateAsync(plan);
         if (errors.Count > 0)
             return new SubmitResult { Success = false, Errors = errors };
+
+        if (_rateLimitSeconds > 0)
+        {
+            var lastSubmission = await _repository.GetLastSubmissionTimeAsync(plan.GameId, plan.PlayerId);
+            if (lastSubmission.HasValue)
+            {
+                var elapsed = (DateTime.UtcNow - lastSubmission.Value).TotalSeconds;
+                if (elapsed < _rateLimitSeconds)
+                {
+                    var wait = (int)Math.Ceiling(_rateLimitSeconds - elapsed);
+                    return new SubmitResult
+                    {
+                        Success = false,
+                        Errors  = [$"Rate limit: wait {wait}s before submitting again."]
+                    };
+                }
+            }
+        }
 
         var history    = await _repository.GetGamePlanHistoryAsync(plan.GameId, plan.PlayerId);
         plan.Version   = history.Count == 0 ? 1 : history.Max(h => h.Version) + 1;
