@@ -10,4 +10,5 @@ public interface IPlanRepository
     Task<List<GamePlanSummary>> GetGamePlanHistoryAsync(string gameId, string playerId);
     Task<GamePlan?> GetGamePlanByVersionAsync(string gameId, string playerId, int version);
     Task<GamePlan?> GetActiveGamePlanAsync(string gameId, string playerId);
+    Task<DateTime?> GetLastSubmissionTimeAsync(string gameId, string playerId);
 }

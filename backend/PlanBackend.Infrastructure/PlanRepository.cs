@@ -105,4 +105,13 @@ public class PlanRepository(PlanDbContext context) : IPlanRepository
 
         return JsonSerializer.Deserialize<GamePlan>(entity.GamePlanJson);
     }
+
+    public async Task<DateTime?> GetLastSubmissionTimeAsync(string gameId, string playerId)
+    {
+        return await _context.GamePlans
+            .Where(g => g.GameId == gameId && g.PlayerId == playerId)
+            .OrderByDescending(g => g.CreatedAt)
+            .Select(g => (DateTime?)g.CreatedAt)
+            .FirstOrDefaultAsync();
+    }
 }
